@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Diana & Jonathan · Invitación</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#f8f1ea}
+#invite{width:100%;height:100%;border:0;display:block}
+.nav{
+ position:fixed;z-index:20;top:50%;transform:translateY(-50%);
+ width:46px;height:46px;border:1px solid rgba(120,75,65,.22);
+ border-radius:50%;background:rgba(255,250,246,.9);color:#7c4d46;
+ font-size:30px;line-height:1;display:grid;place-items:center;
+ box-shadow:0 6px 20px rgba(80,40,30,.12);cursor:pointer;
+}
+.nav:disabled{opacity:.25;cursor:default}
+#prev{left:16px}#next{right:16px}
+#counter{
+ position:fixed;z-index:20;bottom:16px;left:50%;transform:translateX(-50%);
+ padding:7px 12px;border-radius:20px;background:rgba(255,250,246,.86);
+ color:#7c4d46;font:500 12px Arial,sans-serif;letter-spacing:.08em
+}
+@media(max-width:600px){
+ .nav{width:40px;height:40px;font-size:25px}
+ #prev{left:8px}#next{right:8px}
+ #counter{bottom:9px;font-size:10px}
+}
+</style>
+</head>
+<body>
+<iframe id="invite" src="./index.html" title="Invitación Diana y Jonathan"></iframe>
+<button id="prev" class="nav" aria-label="Página anterior">‹</button>
+<button id="next" class="nav" aria-label="Página siguiente">›</button>
+<div id="counter">1 / 1</div>
+
+<script>
+const frame=document.getElementById('invite');
+const prev=document.getElementById('prev');
+const next=document.getElementById('next');
+const counter=document.getElementById('counter');
+
+let pages=[];
+let current=0;
+let moving=false;
+
+function setup(){
+  try{
+    const doc=frame.contentDocument;
+    if(!doc || !doc.body) return;
+
+    const style=doc.createElement('style');
+    style.textContent=`
+      html,body{
+        overflow:hidden!important;
+        width:100%!important;
+        height:100%!important;
+      }
+      body{
+        position:relative!important;
+        min-height:100%!important;
+      }
+      body>section{
+        position:absolute!important;
+        inset:0!important;
+        width:100%!important;
+        height:100%!important;
+        min-height:100%!important;
+        max-height:100%!important;
+        overflow-y:auto!important;
+        overflow-x:hidden!important;
+        margin:0!important;
+        transform:translateX(100%);
+        opacity:0;
+        pointer-events:none;
+        transition:
+          transform .72s cubic-bezier(.77,0,.18,1),
+          opacity .45s ease!important;
+      }
+      body>section.horizontal-active{
+        transform:translateX(0)!important;
+        opacity:1!important;
+        pointer-events:auto!important;
+      }
+      body>section.horizontal-before{
+        transform:translateX(-100%)!important;
+        opacity:0!important;
+      }
+      body>section.horizontal-after{
+        transform:translateX(100%)!important;
+        opacity:0!important;
+      }
+    `;
+    doc.head.appendChild(style);
+
+    pages=[...doc.querySelectorAll('body>section')];
+
+    if(!pages.length){
+      pages=[...doc.querySelectorAll('section')];
+    }
+
+    render();
+  }catch(error){
+    console.warn(error);
+  }
+}
+
+function render(){
+  pages.forEach((page,index)=>{
+    page.classList.remove(
+      'horizontal-active',
+      'horizontal-before',
+      'horizontal-after'
+    );
+
+    if(index<current){
+      page.classList.add('horizontal-before');
+    }else if(index===current){
+      page.classList.add('horizontal-active');
+    }else{
+      page.classList.add('horizontal-after');
+    }
+  });
+
+  counter.textContent=(current+1)+' / '+pages.length;
+  prev.disabled=current===0;
+  next.disabled=current===pages.length-1;
+}
+
+function goTo(target){
+  if(!pages.length || moving) return;
+
+  target=Math.max(0,Math.min(pages.length-1,target));
+  if(target===current) return;
+
+  current=target;
+  moving=true;
+  render();
+
+  setTimeout(()=>{moving=false},760);
+}
+
+prev.addEventListener('click',()=>goTo(current-1));
+next.addEventListener('click',()=>goTo(current+1));
+
+frame.addEventListener('load',setup);
+
+window.addEventListener('keydown',(event)=>{
+  if(event.key==='ArrowRight' || event.key==='PageDown'){
+    goTo(current+1);
+  }
+  if(event.key==='ArrowLeft' || event.key==='PageUp'){
+    goTo(current-1);
+  }
+});
+
+let startX=0,startY=0;
+
+frame.addEventListener('touchstart',(event)=>{
+  if(event.touches.length!==1) return;
+  startX=event.touches[0].clientX;
+  startY=event.touches[0].clientY;
+},{passive:true});
+
+frame.addEventListener('touchend',(event)=>{
+  if(!pages.length) return;
+
+  const dx=event.changedTouches[0].clientX-startX;
+  const dy=event.changedTouches[0].clientY-startY;
+
+  if(Math.abs(dx)>55 && Math.abs(dx)>Math.abs(dy)*1.2){
+    goTo(current+(dx<0 ? 1 : -1));
+  }
+},{passive:true});
+</script>
+</body>
+</html>
