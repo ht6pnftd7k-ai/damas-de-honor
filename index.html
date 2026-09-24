@@ -2,177 +2,169 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Diana & Jonathan · Invitación</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Diana & Jonathan · Damas de honor</title>
 <style>
+:root{
+  --coral:#d98278; --coral2:#efb1a6; --cream:#fffaf5; --ink:#403638;
+  --gold:#b88b5a; --rose:#f7e2dc; --white:#fff;
+}
 *{box-sizing:border-box}
-html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#f8f1ea}
-#invite{width:100%;height:100%;border:0;display:block}
-.nav{
- position:fixed;z-index:20;top:50%;transform:translateY(-50%);
- width:46px;height:46px;border:1px solid rgba(120,75,65,.22);
- border-radius:50%;background:rgba(255,250,246,.9);color:#7c4d46;
- font-size:30px;line-height:1;display:grid;place-items:center;
- box-shadow:0 6px 20px rgba(80,40,30,.12);cursor:pointer;
-}
-.nav:disabled{opacity:.25;cursor:default}
-#prev{left:16px}#next{right:16px}
-#counter{
- position:fixed;z-index:20;bottom:16px;left:50%;transform:translateX(-50%);
- padding:7px 12px;border-radius:20px;background:rgba(255,250,246,.86);
- color:#7c4d46;font:500 12px Arial,sans-serif;letter-spacing:.08em
-}
-@media(max-width:600px){
- .nav{width:40px;height:40px;font-size:25px}
- #prev{left:8px}#next{right:8px}
- #counter{bottom:9px;font-size:10px}
-}
+body{margin:0;background:var(--cream);color:var(--ink);font-family:Georgia,serif}
+.page{min-height:100vh;display:none;padding:28px 18px 70px;position:relative;overflow:hidden}
+.page.active{display:block}
+.glow{position:absolute;width:260px;height:260px;border-radius:50%;background:#f3c9c1;opacity:.28;filter:blur(12px);top:-80px;right:-70px}
+.card{max-width:760px;margin:auto;position:relative;background:rgba(255,255,255,.82);border:1px solid #ead8d1;border-radius:28px;padding:30px 22px 34px;box-shadow:0 18px 50px rgba(90,50,45,.10)}
+.eyebrow{text-align:center;letter-spacing:3px;text-transform:uppercase;font:600 11px Arial,sans-serif;color:var(--gold)}
+h1{text-align:center;font-size:42px;line-height:1.05;margin:12px 0 8px;font-weight:400;color:#4a3838}
+.subtitle{text-align:center;font-style:italic;color:#866d6b;font-size:17px}
+.photo{width:100%;max-height:520px;object-fit:cover;border-radius:22px;margin:22px 0 20px;box-shadow:0 10px 30px rgba(70,40,40,.13)}
+.letter{font-size:18px;line-height:1.75;max-width:650px;margin:auto}
+.quote{border-left:3px solid var(--coral);padding:8px 0 8px 18px;margin:22px 0;font-style:italic;font-size:20px}
+.question{margin-top:28px;text-align:center}
+.question h2{font-size:30px;font-weight:400;margin:0 0 18px}
+button{border:0;border-radius:999px;padding:14px 24px;margin:6px;font:600 14px Arial,sans-serif;cursor:pointer}
+.yes{background:var(--coral);color:white;box-shadow:0 8px 18px rgba(217,130,120,.3)}
+.no{background:#f2e8e5;color:#654e4b}
+.details{text-align:center;margin-top:26px;padding-top:22px;border-top:1px solid #ead8d1;font:13px Arial,sans-serif;color:#725e5b;letter-spacing:.4px}
+.details b{color:#4d3d3b}
+.response{display:none;text-align:center;margin-top:20px;padding:20px;border-radius:20px;background:#fff4f0;border:1px solid #efd0c8}
+.response.show{display:block}
+.response strong{font-size:21px}
+.small{font:12px Arial,sans-serif;color:#806d6a;margin-top:12px}
+#home{display:block}
+.home-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:25px}
+.home-btn{background:white;border:1px solid #ead8d1;border-radius:20px;padding:18px;text-align:left;cursor:pointer}
+.home-btn strong{display:block;font:600 16px Arial,sans-serif;color:#4b3b39}
+.home-btn span{display:block;margin-top:5px;color:#876e6b;font-size:13px}
+.back{display:block;margin:0 auto 18px;background:transparent;color:#80615e;font-size:12px}
+.flower{position:absolute;font-size:45px;opacity:.18}
+.f1{left:4%;bottom:7%}.f2{right:5%;bottom:10%}
 </style>
 </head>
 <body>
-<iframe id="invite" src="./index.html" title="Invitación Diana y Jonathan"></iframe>
-<button id="prev" class="nav" aria-label="Página anterior">‹</button>
-<button id="next" class="nav" aria-label="Página siguiente">›</button>
-<div id="counter">1 / 1</div>
+
+<section id="home" class="page active">
+<div class="glow"></div><div class="flower f1">✿</div><div class="flower f2">❀</div>
+<div class="card">
+  <div class="eyebrow">Una pregunta muy especial</div>
+  <h1>Diana & Jonathan</h1>
+  <div class="subtitle">13 · 02 · 2027 · Popayán, Colombia</div>
+  <p class="letter" style="text-align:center;margin-top:28px">
+    Hay personas que hacen parte de nuestra historia de una manera especial.
+    Por eso, antes de que llegue nuestro gran día, Diana tiene una pregunta para ti...
+  </p>
+  <div class="home-list">
+    <button class="home-btn" onclick="showPage('kathe')"><strong>Kathe</strong><span>La hermana que la vida me regaló</span></button>
+    <button class="home-btn" onclick="showPage('jeanneth')"><strong>Jeanneth</strong><span>Una amistad que sigue a través del tiempo</span></button>
+    <button class="home-btn" onclick="showPage('luisa')"><strong>Lu</strong><span>Una amistad que no ha parado</span></button>
+    <button class="home-btn" onclick="showPage('olga')"><strong>Olga</strong><span>Una pregunta especial para mi hermana</span></button>
+    <button class="home-btn" onclick="showPage('andrea')"><strong>Andrea</strong><span>Gracias por recibirme en tu familia</span></button>
+    <button class="home-btn" onclick="showPage('martha')"><strong>Martha</strong><span>Gracias por recibirme de tan buena manera</span></button>
+  </div>
+  <div class="details"><b>Ceremonia:</b> 5:00 p. m. · <b>Recepción:</b> Hotel Paraíso Real<br>Vestidos de damas: gama coral 🌸</div>
+</div>
+</section>
+
+<section id="kathe" class="page">
+<div class="glow"></div><div class="card">
+<button class="back" onclick="showPage('home')">← volver</button>
+<div class="eyebrow">Para ti, Kathe</div><h1>Mi hermana de la vida</h1><div class="subtitle">Desde los 11 años, y tantos recuerdos después...</div>
+<img class="photo" src="assets/kathe.jpg" alt="Diana y Kathe">
+<div class="letter">
+<p>Hay personas que llegan a nuestra vida y, con el paso de los años, se convierten en familia.</p>
+<p>Nos conocemos desde que teníamos 11 años. Hemos crecido, cambiado, vivido tantas etapas y acumulado recuerdos que hacen que nuestra amistad sea una parte muy especial de mi historia.</p>
+<div class="quote">“La hermana que la vida me regaló.”</div>
+<p>Y ahora que estoy por vivir uno de los días más importantes de mi vida, quiero tenerte a mi lado.</p>
+</div>
+<div class="question"><h2>Kathe, ¿quieres ser mi dama de honor? 💕</h2><button class="yes" onclick="answer('Kathe','Sí, quiero ser tu dama de honor 💕')">SÍ, QUIERO</button><button class="no" onclick="answer('Kathe','Necesito pensarlo 🥹')">DÉJAME PENSARLO</button></div>
+<div id="r-kathe" class="response"></div>
+<div class="details">13 de febrero de 2027 · Popayán · Diana & Jonathan<br>Vestido: cualquier tono dentro de la gama coral 🌸</div>
+</div></section>
+
+<section id="jeanneth" class="page"><div class="glow"></div><div class="card">
+<button class="back" onclick="showPage('home')">← volver</button><div class="eyebrow">Para ti, Jeanneth</div>
+<h1>Una amistad que permanece</h1><div class="subtitle">De aquellas que no necesitan hablar todos los días</div>
+<img class="photo" src="assets/jeanneth.jpg" alt="Diana y Jeanneth">
+<div class="letter">
+<p>La vida nos hizo coincidir trabajando, después compartimos una etapa viviendo juntas en otra ciudad, y tú has sido de esas personas que siempre me han abierto las puertas de su casa y de su corazón.</p>
+<p>También fuiste mi jefa, pero nuestra historia siempre ha sido mucho más grande que cualquier trabajo.</p>
+<div class="quote">“Aunque no nos hablemos seguido, siempre seremos amigas.”</div>
+<p>Por eso quiero que estés conmigo cuando llegue uno de los días más importantes de mi vida.</p>
+</div>
+<div class="question"><h2>Jeanneth, ¿quieres ser mi dama de honor? 💕</h2><button class="yes" onclick="answer('Jeanneth','Sí, quiero ser tu dama de honor 💕')">SÍ, QUIERO</button><button class="no" onclick="answer('Jeanneth','Necesito pensarlo 🥹')">DÉJAME PENSARLO</button></div>
+<div id="r-jeanneth" class="response"></div><div class="details">13 de febrero de 2027 · Popayán · Diana & Jonathan<br>Vestido: cualquier tono dentro de la gama coral 🌸</div>
+</div></section>
+
+<section id="luisa" class="page"><div class="glow"></div><div class="card">
+<button class="back" onclick="showPage('home')">← volver</button><div class="eyebrow">Para ti, Lu</div>
+<h1>Una amistad que no ha parado</h1><div class="subtitle">Tantos años, tantas historias, y todavía nos quedan muchas por vivir</div>
+<img class="photo" src="assets/luisa.jpg" alt="Diana y Luisa">
+<div class="letter">
+<p>Hay amistades que comienzan en un momento cualquiera y, sin darnos cuenta, terminan convirtiéndose en una parte importante de nuestra vida.</p>
+<p>Contigo han pasado los años y nuestra amistad ha seguido creciendo, acumulando momentos, risas, conversaciones y recuerdos que guardo con muchísimo cariño.</p>
+<p>Ahora quiero que seas parte de una nueva historia que estoy a punto de comenzar.</p>
+</div>
+<div class="question"><h2>Lu, ¿quieres ser mi dama de honor? 💕</h2><button class="yes" onclick="answer('Luisa','Sí, quiero ser tu dama de honor 💕')">SÍ, QUIERO</button><button class="no" onclick="answer('Luisa','Necesito pensarlo 🥹')">DÉJAME PENSARLO</button></div>
+<div id="r-luisa" class="response"></div><div class="details">13 de febrero de 2027 · Popayán · Diana & Jonathan<br>Vestido: cualquier tono dentro de la gama coral 🌸</div>
+</div></section>
+
+<section id="olga" class="page"><div class="glow"></div><div class="card">
+<button class="back" onclick="showPage('home')">← volver</button><div class="eyebrow">Para ti, Olga</div>
+<h1>Una pregunta para mi hermana</h1><div class="subtitle">Hay momentos que merecen ser compartidos</div>
+<div style="height:320px;border-radius:22px;background:#f7e8e3;display:flex;align-items:center;justify-content:center;margin:22px 0;color:#a27c76;font:14px Arial,sans-serif;text-align:center;padding:30px">Aquí irá la foto de Olga 🤍<br><br>La dejamos preparada para incorporarla cuando me la envíes.</div>
+<div class="letter">
+<p>La vida nos hizo hermanas y, aunque quizás no siempre hemos sido las más allegadas, siempre he querido lo mejor para ti.</p>
+<p>Hoy estoy por vivir una nueva etapa y quiero compartir este momento con las personas que forman parte de mi historia.</p>
+<p>Por eso quiero hacerte una pregunta muy especial.</p>
+</div>
+<div class="question"><h2>Olga, ¿quieres ser mi dama de honor? 💕</h2><button class="yes" onclick="answer('Olga','Sí, quiero ser tu dama de honor 💕')">SÍ, QUIERO</button><button class="no" onclick="answer('Olga','Necesito pensarlo 🥹')">DÉJAME PENSARLO</button></div>
+<div id="r-olga" class="response"></div><div class="details">13 de febrero de 2027 · Popayán · Diana & Jonathan<br>Vestido: cualquier tono dentro de la gama coral 🌸</div>
+</div></section>
+
+<section id="andrea" class="page"><div class="glow"></div><div class="card">
+<button class="back" onclick="showPage('home')">← volver</button><div class="eyebrow">Para ti, Andrea</div>
+<h1>Gracias por recibirme</h1><div class="subtitle">Una nueva familia también se construye con cariño</div>
+<div class="letter" style="margin-top:30px">
+<p>Cuando una se casa no solamente une su vida a una persona… también comienza a formar parte de una familia.</p>
+<p>Quiero agradecerte por haberme recibido en la familia y por ser una persona especial para mí.</p>
+<p>Ahora que estoy a punto de vivir uno de los días más importantes de mi vida, quiero que estés a mi lado y seas parte de este momento.</p>
+</div>
+<div class="question"><h2>Andrea, ¿quieres ser mi dama de honor? 💕</h2><button class="yes" onclick="answer('Andrea','Sí, quiero ser tu dama de honor 💕')">SÍ, QUIERO</button><button class="no" onclick="answer('Andrea','Necesito pensarlo 🥹')">DÉJAME PENSARLO</button></div>
+<div id="r-andrea" class="response"></div><div class="details">13 de febrero de 2027 · Popayán · Diana & Jonathan<br>Vestido: cualquier tono dentro de la gama coral 🌸</div>
+</div></section>
+
+<section id="martha" class="page"><div class="glow"></div><div class="card">
+<button class="back" onclick="showPage('home')">← volver</button><div class="eyebrow">Para ti, Martha</div>
+<h1>Gracias por recibirme</h1><div class="subtitle">Quiero que seas parte de este día</div>
+<div class="letter" style="margin-top:30px">
+<p>Desde que llegué a esta familia has tenido conmigo una manera muy bonita de recibirme, y eso es algo que valoro muchísimo.</p>
+<p>Ahora que estoy a punto de vivir uno de los días más importantes de mi vida, quiero que tú también formes parte de él.</p>
+<div class="quote">“Gracias por recibirme de tan buena manera.”</div>
+</div>
+<div class="question"><h2>Martha, ¿quieres ser mi dama de honor? 💕</h2><button class="yes" onclick="answer('Martha','Sí, quiero ser tu dama de honor 💕')">SÍ, QUIERO</button><button class="no" onclick="answer('Martha','Necesito pensarlo 🥹')">DÉJAME PENSARLO</button></div>
+<div id="r-martha" class="response"></div><div class="details">13 de febrero de 2027 · Popayán · Diana & Jonathan<br>Vestido: cualquier tono dentro de la gama coral 🌸</div>
+</div></section>
 
 <script>
-const frame=document.getElementById('invite');
-const prev=document.getElementById('prev');
-const next=document.getElementById('next');
-const counter=document.getElementById('counter');
-
-let pages=[];
-let current=0;
-let moving=false;
-
-function setup(){
-  try{
-    const doc=frame.contentDocument;
-    if(!doc || !doc.body) return;
-
-    const style=doc.createElement('style');
-    style.textContent=`
-      html,body{
-        overflow:hidden!important;
-        width:100%!important;
-        height:100%!important;
-      }
-      body{
-        position:relative!important;
-        min-height:100%!important;
-      }
-      body>section{
-        position:absolute!important;
-        inset:0!important;
-        width:100%!important;
-        height:100%!important;
-        min-height:100%!important;
-        max-height:100%!important;
-        overflow-y:auto!important;
-        overflow-x:hidden!important;
-        margin:0!important;
-        transform:translateX(100%);
-        opacity:0;
-        pointer-events:none;
-        transition:
-          transform .72s cubic-bezier(.77,0,.18,1),
-          opacity .45s ease!important;
-      }
-      body>section.horizontal-active{
-        transform:translateX(0)!important;
-        opacity:1!important;
-        pointer-events:auto!important;
-      }
-      body>section.horizontal-before{
-        transform:translateX(-100%)!important;
-        opacity:0!important;
-      }
-      body>section.horizontal-after{
-        transform:translateX(100%)!important;
-        opacity:0!important;
-      }
-    `;
-    doc.head.appendChild(style);
-
-    pages=[...doc.querySelectorAll('body>section')];
-
-    if(!pages.length){
-      pages=[...doc.querySelectorAll('section')];
-    }
-
-    render();
-  }catch(error){
-    console.warn(error);
-  }
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
 }
-
-function render(){
-  pages.forEach((page,index)=>{
-    page.classList.remove(
-      'horizontal-active',
-      'horizontal-before',
-      'horizontal-after'
-    );
-
-    if(index<current){
-      page.classList.add('horizontal-before');
-    }else if(index===current){
-      page.classList.add('horizontal-active');
+function answer(name,msg){
+  localStorage.setItem('dama_'+name, msg);
+  const id='r-'+name.toLowerCase();
+  const el=document.getElementById(id);
+  if(el){
+    el.classList.add('show');
+    if(msg.startsWith('Sí')){
+      el.innerHTML='<strong>¡Sabía que dirías que sí! 🥹💕</strong><div style="margin-top:8px">Entonces queda oficialmente confirmado: ¡eres parte del equipo de Diana!</div>';
     }else{
-      page.classList.add('horizontal-after');
+      el.innerHTML='<strong>Respuesta guardada 🤍</strong><div style="margin-top:8px">Diana recibirá tu respuesta.</div>';
     }
-  });
-
-  counter.textContent=(current+1)+' / '+pages.length;
-  prev.disabled=current===0;
-  next.disabled=current===pages.length-1;
+  }
 }
-
-function goTo(target){
-  if(!pages.length || moving) return;
-
-  target=Math.max(0,Math.min(pages.length-1,target));
-  if(target===current) return;
-
-  current=target;
-  moving=true;
-  render();
-
-  setTimeout(()=>{moving=false},760);
-}
-
-prev.addEventListener('click',()=>goTo(current-1));
-next.addEventListener('click',()=>goTo(current+1));
-
-frame.addEventListener('load',setup);
-
-window.addEventListener('keydown',(event)=>{
-  if(event.key==='ArrowRight' || event.key==='PageDown'){
-    goTo(current+1);
-  }
-  if(event.key==='ArrowLeft' || event.key==='PageUp'){
-    goTo(current-1);
-  }
-});
-
-let startX=0,startY=0;
-
-frame.addEventListener('touchstart',(event)=>{
-  if(event.touches.length!==1) return;
-  startX=event.touches[0].clientX;
-  startY=event.touches[0].clientY;
-},{passive:true});
-
-frame.addEventListener('touchend',(event)=>{
-  if(!pages.length) return;
-
-  const dx=event.changedTouches[0].clientX-startX;
-  const dy=event.changedTouches[0].clientY-startY;
-
-  if(Math.abs(dx)>55 && Math.abs(dx)>Math.abs(dy)*1.2){
-    goTo(current+(dx<0 ? 1 : -1));
-  }
-},{passive:true});
 </script>
 </body>
 </html>
